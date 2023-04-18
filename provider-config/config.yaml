@@ -1,0 +1,11 @@
+---
+apiVersion: aws.upbound.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: default
+  annotations:
+    kapp.k14s.io/change-rule.upsert-provider-config: "upsert after upserting xplane-upbound-aws-provider"
+    kapp.k14s.io/change-rule.delete-provider-config: "delete before deleting xplane-upbound-aws-provider"
+spec:
+  credentials:
+    source: IRSA
