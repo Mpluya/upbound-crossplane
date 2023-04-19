@@ -66,11 +66,14 @@ spec:
          dbInstanceClass: db.t3.micro
          engine: postgres
          dbName: postgres
+         dbSubnetGroupName: tap-run-prod-subnet-group
          engineVersion: "13"
          masterUsername: masteruser
          publiclyAccessible: true                # <---- DANGER
          region: us-west-2
          skipFinalSnapshotBeforeDeletion: true
+         vpcSecurityGroupIds: 
+         - sg-06243512b6cfb8d6d
        writeConnectionSecretToRef:
          namespace: crossplane-system
    connectionDetails:
