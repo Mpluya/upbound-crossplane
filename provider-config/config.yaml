@@ -57,7 +57,29 @@ spec:
  publishConnectionDetailsWithStoreConfigRef:
    name: default
  resources:
- - base:
+ - name: subnet-group
+   base: 
+     apiVersion: rds.aws.upbound.io/v1beta1
+     kind: SubnetGroup
+     metadata:
+       name: tap-run-prod-subnet-group
+     spec:
+       forProvider:
+         region: us-west-2
+         description: "run-prod subnet group"
+         subnetIds:
+           - subnet-09890d9754ea57db9
+           - subnet-0fe9c0e02e17bb03a     
+           - subnet-0d94164b8ff3b634d
+           - subnet-0bb4fa64cf6b90af6
+           - subnet-0eb78fe364fc99b1c
+           - subnet-0885bd28d88a3db9e
+         tags:
+           charge: tap-run-prod
+       providerConfigRef:
+         name: default
+ - name: rds-instance
+   base:
      apiVersion: rds.aws.upbound.io/v1beta1
      kind: Instance
      metadata:
