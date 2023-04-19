@@ -54,8 +54,6 @@ spec:
  compositeTypeRef:
    apiVersion: database.rds.example.org/v1alpha1
    kind: XPostgreSQLInstance
- providerConfigRef:
-    name: provider-aws
  publishConnectionDetailsWithStoreConfigRef:
    name: default
  resources:
