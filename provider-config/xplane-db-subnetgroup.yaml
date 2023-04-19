@@ -1,5 +1,5 @@
-apiVersion: database.aws.crossplane.io/v1beta1
-kind: DBSubnetGroup
+apiVersion: rds.aws.upbound.io/v1beta1
+kind: SubnetGroup
 metadata:
   name: tap-run-prod-subnet-group
 spec:
@@ -14,7 +14,6 @@ spec:
       - subnet-0eb78fe364fc99b1c
       - subnet-0885bd28d88a3db9e
     tags:
-      - key: charge
-        value: tap-run-prod
+      charge: tap-run-prod
   providerConfigRef:
     name: default
