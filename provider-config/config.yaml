@@ -108,9 +108,11 @@ spec:
          storageEncrypted: true
          storageType: gp2
          username: adminuser
-         dbSubnetGroupName: tap-run-prod-subnet-group
-         vpcSecurityGroupIds: 
-         - sg-06243512b6cfb8d6d
+         dbSubnetGroupNameSelector:
+           matchControllerRef: true
+         vpcSecurityGroupIDs: []
+         vpcSecurityGroupIDSelector:
+           matchControllerRef: true
        writeConnectionSecretToRef:
          namespace: crossplane-system
    connectionDetails:
