@@ -89,8 +89,10 @@ spec:
          testing.upbound.io/example-name: example-dbinstance
        name: example-dbinstance-${Rand.RFC1123Subdomain}
      spec:
+       deletionPolicy: "Delete"
        forProvider:
          allocatedStorage: 20
+         applyImmediately: true
          autoGeneratePassword: true
          autoMinorVersionUpgrade: true
          backupRetentionPeriod: 14
