@@ -1,0 +1,12 @@
+---
+# The AWS "family" Provider - manages the ProviderConfig for all other Providers in the same family.
+# Does not have to be created explicitly, if not created explicitly it will be installed by the first Provider created
+# in the family.
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: upbound-provider-family-aws
+spec:
+  package: xpkg.upbound.io/upbound/provider-family-aws:v0.36.0
+  controllerConfigRef:
+    name: upbound-provider-family-aws
