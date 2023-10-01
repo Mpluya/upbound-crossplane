@@ -2,10 +2,10 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-labels:
-  provider: "aws"
-  vpc: "default"
-name: xpostgresqlinstances.database.rds.example.org
+  labels:
+    provider: "aws"
+    vpc: "default"
+  name: xpostgresqlinstances.database.rds.example.org
 spec:
 compositeTypeRef:
   apiVersion: database.rds.example.org/v1alpha1
