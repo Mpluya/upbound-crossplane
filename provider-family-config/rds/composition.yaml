@@ -7,93 +7,93 @@ metadata:
     vpc: "default"
   name: xpostgresqlinstances.database.rds.example.org
 spec:
-compositeTypeRef:
-  apiVersion: database.rds.example.org/v1alpha1
-  kind: XPostgreSQLInstance
-publishConnectionDetailsWithStoreConfigRef:
-  name: default
-resources:
-- name: subnet-group
-  base: 
-    apiVersion: rds.aws.upbound.io/v1beta1
-    kind: SubnetGroup
-    metadata:
-      name: run-production-subnet-group
-    spec:
-      forProvider:
-        region: us-west-2
-        description: "run-prod subnet group"
-        subnetIds:
-          - subnet-098cc3e7a7374c6f3
-          - subnet-09c16d7d3252e29c6     
-          - subnet-0884862d0efa35cf8
-          - subnet-0710b7a948b460bf6
-          - subnet-084d039d6bb6b1508
-          - subnet-01fdeaf1b0deb200f
-        tags:
-          charge: run-production
-      providerConfigRef:
-        name: default
-- name: rds-instance
-  base:
-    apiVersion: rds.aws.upbound.io/v1beta1
-    kind: Instance
-    metadata:
-      annotations:
-        meta.upbound.io/example-id: rds/v1beta1/instance
-      labels:
-        testing.upbound.io/example-name: example-dbinstance
-      name: example-dbinstance-${Rand.RFC1123Subdomain}
-    spec:
-      deletionPolicy: "Delete"
-      forProvider:
-        allocatedStorage: 20
-        applyImmediately: true
-        autoGeneratePassword: true
-        autoMinorVersionUpgrade: true
-        backupRetentionPeriod: 14
-        engine: postgres
-        engineVersion: "13.7"
-        instanceClass: db.t3.micro
-        name: postgres
-        passwordSecretRef:
-          key: password
-          name: example-dbinstance
+  compositeTypeRef:
+    apiVersion: database.rds.example.org/v1alpha1
+    kind: XPostgreSQLInstance
+  publishConnectionDetailsWithStoreConfigRef:
+    name: default
+  resources:
+  - name: subnet-group
+    base: 
+      apiVersion: rds.aws.upbound.io/v1beta1
+      kind: SubnetGroup
+      metadata:
+        name: run-production-subnet-group
+      spec:
+        forProvider:
+          region: us-west-2
+          description: "run-prod subnet group"
+          subnetIds:
+            - subnet-098cc3e7a7374c6f3
+            - subnet-09c16d7d3252e29c6     
+            - subnet-0884862d0efa35cf8
+            - subnet-0710b7a948b460bf6
+            - subnet-084d039d6bb6b1508
+            - subnet-01fdeaf1b0deb200f
+          tags:
+            charge: run-production
+        providerConfigRef:
+          name: default
+  - name: rds-instance
+    base:
+      apiVersion: rds.aws.upbound.io/v1beta1
+      kind: Instance
+      metadata:
+        annotations:
+          meta.upbound.io/example-id: rds/v1beta1/instance
+        labels:
+          testing.upbound.io/example-name: example-dbinstance
+        name: example-dbinstance-${Rand.RFC1123Subdomain}
+      spec:
+        deletionPolicy: "Delete"
+        forProvider:
+          allocatedStorage: 20
+          applyImmediately: true
+          autoGeneratePassword: true
+          autoMinorVersionUpgrade: true
+          backupRetentionPeriod: 14
+          engine: postgres
+          engineVersion: "13.7"
+          instanceClass: db.t3.micro
+          name: postgres
+          passwordSecretRef:
+            key: password
+            name: example-dbinstance
+            namespace: crossplane-system
+          publiclyAccessible: false
+          region: us-west-2
+          skipFinalSnapshot: true
+          storageEncrypted: true
+          storageType: gp2
+          username: adminuser
+          dbSubnetGroupNameSelector:
+            matchControllerRef: true
+          vpcSecurityGroupIDs: []
+          vpcSecurityGroupIDSelector:
+            matchControllerRef: true
+        writeConnectionSecretToRef:
           namespace: crossplane-system
-        publiclyAccessible: false
-        region: us-west-2
-        skipFinalSnapshot: true
-        storageEncrypted: true
-        storageType: gp2
-        username: adminuser
-        dbSubnetGroupNameSelector:
-          matchControllerRef: true
-        vpcSecurityGroupIDs: []
-        vpcSecurityGroupIDSelector:
-          matchControllerRef: true
-      writeConnectionSecretToRef:
-        namespace: crossplane-system
-  connectionDetails:
-  - name: type
-    value: postgresql
-  - name: provider
-    value: aws
-  - name: database
-    value: postgres
-  - fromConnectionSecretKey: username
-  - fromConnectionSecretKey: password
-  - name: host
-    fromConnectionSecretKey: endpoint
-  - fromConnectionSecretKey: port
-  patches:
-  - fromFieldPath: metadata.uid
-    toFieldPath: spec.writeConnectionSecretToRef.name
-    transforms:
-    - string:
-        fmt: '%s-postgresql'
-        type: Format
-      type: string
-    type: FromCompositeFieldPath
-  - fromFieldPath: spec.storageGB
-    toFieldPath: spec.forProvider.allocatedStorage
-    type: FromCompositeFieldPath
+    connectionDetails:
+    - name: type
+      value: postgresql
+    - name: provider
+      value: aws
+    - name: database
+      value: postgres
+    - fromConnectionSecretKey: username
+    - fromConnectionSecretKey: password
+    - name: host
+      fromConnectionSecretKey: endpoint
+    - fromConnectionSecretKey: port
+    patches:
+    - fromFieldPath: metadata.uid
+      toFieldPath: spec.writeConnectionSecretToRef.name
+      transforms:
+      - string:
+          fmt: '%s-postgresql'
+          type: Format
+        type: string
+      type: FromCompositeFieldPath
+    - fromFieldPath: spec.storageGB
+      toFieldPath: spec.forProvider.allocatedStorage
+      type: FromCompositeFieldPath
