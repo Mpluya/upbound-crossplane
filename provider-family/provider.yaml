@@ -32,3 +32,4 @@ metadata:
   name: irsa-controllerconfig
   annotations:
     eks.amazonaws.com/role-arn: arn:aws:iam::375783000519:role/run-production-xplane-provider-aws
+spec:
