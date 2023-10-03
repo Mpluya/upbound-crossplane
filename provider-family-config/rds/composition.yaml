@@ -22,7 +22,7 @@ spec:
       spec:
         forProvider:
           region: us-west-2
-          description: "run-prod subnet group"
+          description: "run-production subnet group"
           subnetIds:
             - subnet-098cc3e7a7374c6f3
             - subnet-09c16d7d3252e29c6     
