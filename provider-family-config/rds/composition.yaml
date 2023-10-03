@@ -34,8 +34,7 @@ spec:
             charge: run-production
         providerConfigRef:
           name: irsa
-  - name: rds-instance
-    base:
+  - base:
       apiVersion: rds.aws.upbound.io/v1beta1
       kind: Instance
       metadata:
@@ -85,7 +84,16 @@ spec:
     - name: host
       fromConnectionSecretKey: endpoint
     - fromConnectionSecretKey: port
+    name: instance
     patches:
+    - fromFieldPath: metadata.uid
+      toFieldPath: spec.forProvider.passwordSecretRef.name
+      transforms:
+      - string:
+          fmt: '%s-postgresql-pw'
+          type: Format
+        type: string
+      type: FromCompositeFieldPath
     - fromFieldPath: metadata.uid
       toFieldPath: spec.writeConnectionSecretToRef.name
       transforms:
