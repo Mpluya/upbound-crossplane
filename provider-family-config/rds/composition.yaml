@@ -46,8 +46,6 @@ spec:
         name: example-dbinstance-${Rand.RFC1123Subdomain}
       spec:
         deletionPolicy: "Delete"
-        providerConfigRef:
-          name: irsa
         forProvider:
           allocatedStorage: 20
           applyImmediately: true
