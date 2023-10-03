@@ -1,5 +1,3 @@
-# provider-family-aws.yaml
-
 ---
 # The AWS "family" Provider - manages the ProviderConfig for all other Providers in the same family.
 # Does not have to be created explicitly, if not created explicitly it will be installed by the first Provider created
@@ -9,9 +7,9 @@ kind: Provider
 metadata:
   name: upbound-provider-family-aws
 spec:
-  package: xpkg.upbound.io/upbound/provider-family-aws:v0.36.0
+  package: xpkg.upbound.io/upbound/provider-family-aws:v0.38.0
   controllerConfigRef:
-    name: irsa-controllerconfig
+    name: upbound-provider-family-aws
 ---
 # The AWS RDS Provider - just one of the many Providers in the AWS family.
 # You can add as few or as many additional Providers in the same family as you wish.
@@ -20,16 +18,23 @@ kind: Provider
 metadata:
   name: upbound-provider-aws-rds
 spec:
-  package: xpkg.upbound.io/upbound/provider-aws-rds:v0.36.0
+  package: xpkg.upbound.io/upbound/provider-aws-rds:v0.38.0
   controllerConfigRef:
-    name: irsa-controllerconfig
+    name: upbound-provider-family-aws-management-policies
 ---
 # The ControllerConfig applies settings to a Provider Pod.
 # With family Providers each Provider is a unique Pod running in the cluster.
 apiVersion: pkg.crossplane.io/v1alpha1
 kind: ControllerConfig
 metadata:
-  name: irsa-controllerconfig
-  annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::375783000519:role/run-production-xplane-provider-aws
+  name: upbound-provider-family-aws-management-policies
 spec:
+  args:
+  - "--enable-management-policies"
+---
+# The ControllerConfig applies settings to a Provider Pod.
+# With family Providers each Provider is a unique Pod running in the cluster.
+apiVersion: pkg.crossplane.io/v1alpha1
+kind: ControllerConfig
+metadata:
+  name: upbound-provider-family-aws
