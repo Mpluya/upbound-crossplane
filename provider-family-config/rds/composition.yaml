@@ -33,7 +33,7 @@ spec:
           tags:
             charge: run-production
         providerConfigRef:
-          name: irsa
+          name: default
   - base:
       apiVersion: rds.aws.upbound.io/v1beta1
       kind: Instance
