@@ -33,7 +33,7 @@ spec:
           tags:
             charge: run-production
         providerConfigRef:
-          name: default
+          name: irsa
   - name: rds-instance
     base:
       apiVersion: rds.aws.upbound.io/v1beta1
@@ -47,7 +47,7 @@ spec:
       spec:
         deletionPolicy: "Delete"
         providerConfigRef:
-          name: default
+          name: irsa
         forProvider:
           allocatedStorage: 20
           applyImmediately: true
