@@ -67,7 +67,6 @@ spec:
           username: adminuser
           dbSubnetGroupNameSelector:
             matchControllerRef: true
-          vpcSecurityGroupIds: []
           vpcSecurityGroupIdSelector:
             matchControllerRef: true
         writeConnectionSecretToRef:
