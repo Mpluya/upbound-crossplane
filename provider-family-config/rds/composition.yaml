@@ -67,8 +67,8 @@ spec:
           username: adminuser
           dbSubnetGroupNameSelector:
             matchControllerRef: true
-          vpcSecurityGroupIDs: []
-          vpcSecurityGroupIDSelector:
+          vpcSecurityGroupIds: []
+          vpcSecurityGroupIdSelector:
             matchControllerRef: true
         writeConnectionSecretToRef:
           namespace: crossplane-system
