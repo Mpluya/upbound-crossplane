@@ -59,7 +59,7 @@ spec:
             key: password
             name: example-dbinstance
             namespace: crossplane-system
-          publiclyAccessible: false
+          publiclyAccessible: true
           region: us-west-2
           skipFinalSnapshot: true
           storageEncrypted: true
