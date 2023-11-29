@@ -18,20 +18,20 @@ spec:
       apiVersion: rds.aws.upbound.io/v1beta1
       kind: SubnetGroup
       metadata:
-        name: run-production-subnet-group
+        name: cg-eks-run-prod-subnet-group
       spec:
         forProvider:
           region: us-west-2
-          description: "run-production subnet group"
+          description: "cg eks run-prod subnet group"
           subnetIds:
-            - subnet-098cc3e7a7374c6f3
-            - subnet-09c16d7d3252e29c6     
-            - subnet-0884862d0efa35cf8
-            - subnet-0710b7a948b460bf6
-            - subnet-084d039d6bb6b1508
-            - subnet-01fdeaf1b0deb200f
+            - subnet-0542118f0e4715019
+            - subnet-07ea5c1dcbebce36c
+            - subnet-095176809c77e6593
+            - subnet-0352c78d23acdd082
+            - subnet-0352c78d23acdd082
+            - subnet-015d77dfab6ef1eaa
           tags:
-            charge: run-production
+            charge: cg-eks-run-prod
         providerConfigRef:
           name: default
   - base:
@@ -67,8 +67,9 @@ spec:
           username: adminuser
           dbSubnetGroupNameSelector:
             matchControllerRef: true
-          vpcSecurityGroupIds:
-            - sg-0f271852e5a6377a7
+          vpcSecurityGroupIds: []
+          vpcSecurityGroupIDSelector:
+            matchControllerRef: true
         writeConnectionSecretToRef:
           namespace: crossplane-system
     connectionDetails:
