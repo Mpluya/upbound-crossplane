@@ -69,12 +69,12 @@ spec:
           region: us-west-2
           description: "cg eks run-prod subnet group"
           subnetIds:
-          - subnet-0542118f0e4715019
-          - subnet-07ea5c1dcbebce36c
-          - subnet-095176809c77e6593
-          - subnet-0352c78d23acdd082
-          - subnet-0352c78d23acdd082
-          - subnet-015d77dfab6ef1eaa
+            - subnet-0542118f0e4715019
+            - subnet-07ea5c1dcbebce36c
+            - subnet-095176809c77e6593
+            - subnet-0352c78d23acdd082
+            - subnet-0352c78d23acdd082
+            - subnet-015d77dfab6ef1eaa
           tags:
             charge: cg-eks-run-prod
         providerConfigRef:
