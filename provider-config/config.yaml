@@ -46,99 +46,99 @@ spec:
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
- labels:
-   provider: "aws"
-   vpc: "default"
- name: xpostgresqlinstances.database.rds.example.org
+  labels:
+    provider: "aws"
+    vpc: "default"
+  name: xpostgresqlinstances.database.rds.example.org
 spec:
- compositeTypeRef:
-   apiVersion: database.rds.example.org/v1alpha1
-   kind: XPostgreSQLInstance
- publishConnectionDetailsWithStoreConfigRef:
-   name: default
- resources:
- - name: subnet-group
-   base: 
-     apiVersion: rds.aws.upbound.io/v1beta1
-     kind: SubnetGroup
-     metadata:
-       name: tap-run-prod-subnet-group
-     spec:
-       forProvider:
-         region: us-west-2
-         description: "run-prod subnet group"
-         subnetIds:
-           - subnet-09890d9754ea57db9
-           - subnet-0fe9c0e02e17bb03a     
-           - subnet-0d94164b8ff3b634d
-           - subnet-0bb4fa64cf6b90af6
-           - subnet-0eb78fe364fc99b1c
-           - subnet-0885bd28d88a3db9e
-         tags:
-           charge: tap-run-prod
-       providerConfigRef:
-         name: default
- - name: rds-instance
-   base:
-     apiVersion: rds.aws.upbound.io/v1beta1
-     kind: Instance
-     metadata:
-       annotations:
-         meta.upbound.io/example-id: rds/v1beta1/instance
-       labels:
-         testing.upbound.io/example-name: example-dbinstance
-       name: example-dbinstance-${Rand.RFC1123Subdomain}
-     spec:
-       deletionPolicy: "Delete"
-       forProvider:
-         allocatedStorage: 20
-         applyImmediately: true
-         autoGeneratePassword: true
-         autoMinorVersionUpgrade: true
-         backupRetentionPeriod: 14
-         engine: postgres
-         engineVersion: "13.7"
-         instanceClass: db.t3.micro
-         name: postgres
-         passwordSecretRef:
-           key: password
-           name: example-dbinstance
-           namespace: crossplane-system
-         publiclyAccessible: false
-         region: us-west-2
-         skipFinalSnapshot: true
-         storageEncrypted: true
-         storageType: gp2
-         username: adminuser
-         dbSubnetGroupNameSelector:
-           matchControllerRef: true
-         vpcSecurityGroupIDs: []
-         vpcSecurityGroupIDSelector:
-           matchControllerRef: true
-       writeConnectionSecretToRef:
+  compositeTypeRef:
+    apiVersion: database.rds.example.org/v1alpha1
+    kind: XPostgreSQLInstance
+  publishConnectionDetailsWithStoreConfigRef:
+    name: default
+  resources:
+  - name: subnet-group
+    base: 
+      apiVersion: rds.aws.upbound.io/v1beta1
+      kind: SubnetGroup
+      metadata:
+        name: cg-eks-run-prod-subnet-group
+      spec:
+        forProvider:
+          region: us-west-2
+          description: "cg eks run-prod subnet group"
+          subnetIds:
+          - subnet-0542118f0e4715019
+          - subnet-07ea5c1dcbebce36c
+          - subnet-095176809c77e6593
+          - subnet-0352c78d23acdd082
+          - subnet-0352c78d23acdd082
+          - subnet-015d77dfab6ef1eaa
+          tags:
+            charge: cg-eks-run-prod
+        providerConfigRef:
+          name: default
+  - name: rds-instance
+    base:
+      apiVersion: rds.aws.upbound.io/v1beta1
+      kind: Instance
+      metadata:
+        annotations:
+          meta.upbound.io/example-id: rds/v1beta1/instance
+        labels:
+          testing.upbound.io/example-name: example-dbinstance
+        name: example-dbinstance-${Rand.RFC1123Subdomain}
+      spec:
+        deletionPolicy: "Delete"
+        forProvider:
+          allocatedStorage: 20
+          applyImmediately: true
+          autoGeneratePassword: true
+          autoMinorVersionUpgrade: true
+          backupRetentionPeriod: 14
+          engine: postgres
+          engineVersion: "13.7"
+          instanceClass: db.t3.micro
+          name: postgres
+          passwordSecretRef:
+            key: password
+            name: example-dbinstance
+            namespace: crossplane-system
+          publiclyAccessible: false
+          region: us-west-2
+          skipFinalSnapshot: true
+          storageEncrypted: true
+          storageType: gp2
+          username: adminuser
+          dbSubnetGroupNameSelector:
+            matchControllerRef: true
+          vpcSecurityGroupIDs: []
+          vpcSecurityGroupIDSelector:
+            matchControllerRef: true
+        writeConnectionSecretToRef:
          namespace: crossplane-system
-   connectionDetails:
-   - name: type
-     value: postgresql
-   - name: provider
-     value: aws
-   - name: database
-     value: postgres
-   - fromConnectionSecretKey: username
-   - fromConnectionSecretKey: password
-   - name: host
-     fromConnectionSecretKey: endpoint
-   - fromConnectionSecretKey: port
-   name: rdsinstance
-   patches:
-   - fromFieldPath: metadata.uid
-     toFieldPath: spec.writeConnectionSecretToRef.name
-     transforms:
-     - string:
-         fmt: '%s-postgresql'
-         type: Format
-       type: string
-     type: FromCompositeFieldPath
-   - fromFieldPath: spec.storageGB
-     toFieldPath: spec.forProvider.allocatedStorage
-     type: FromCompositeFieldPath
+    connectionDetails:
+    - name: type
+      value: postgresql
+    - name: provider
+      value: aws
+    - name: database
+      value: postgres
+    - fromConnectionSecretKey: username
+    - fromConnectionSecretKey: password
+    - name: host
+      fromConnectionSecretKey: address
+    - fromConnectionSecretKey: port
+    name: rdsinstance
+    patches:
+    - fromFieldPath: metadata.uid
+      toFieldPath: spec.writeConnectionSecretToRef.name
+      transforms:
+      - string:
+          fmt: '%s-postgresql'
+          type: Format
+        type: string
+      type: FromCompositeFieldPath
+    - fromFieldPath: spec.storageGB
+      toFieldPath: spec.forProvider.allocatedStorage
+      type: FromCompositeFieldPath
